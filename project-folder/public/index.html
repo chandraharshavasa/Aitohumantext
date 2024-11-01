@@ -130,11 +130,11 @@
 
             // Transformation logic
             let transformations = [
-                text => text.replace(/(?<!\.)\b(\w+)\b/g, word => Math.random() > 0.8 ? ${word}, : word),
-                text => text.replace(/([.!?])\s/g, match => Math.random() > 0.7 ? ${match}\n : match),
+                text => text.replace(/(?<!\.)\b(\w+)\b/g, word => Math.random() > 0.8 ? `${word},` : word),
+                text => text.replace(/([.!?])\s/g, match => Math.random() > 0.7 ? `${match}\n` : match),
                 text => text.replace(/\bi\b/g, "I"),
                 text => text.replace(/\b(therefore|however|thus|moreover|hence)\b/gi, "so"),
-                text => text.replace(/\b(\w{5,})\b/g, word => Math.random() > 0.6 ? ${word}... : word)
+                text => text.replace(/\b(\w{5,})\b/g, word => Math.random() > 0.6 ? `${word}...` : word)
             ];
 
             transformations.forEach(transform => {
@@ -158,7 +158,7 @@
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': Bearer ${sessionToken}
+                    'Authorization': `Bearer ${sessionToken}`
                 }
             });
 

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Text to Human-like Text Converter</title>
     <style>
+        /* Styles for the page */
         body {
             font-family: Arial, sans-serif;
             background-color: #f3f4f6;
@@ -15,7 +16,6 @@
             margin: 0;
             color: #333;
         }
-
         .container {
             background: #ffffff;
             padding: 20px 40px;
@@ -25,54 +25,14 @@
             max-width: 600px;
             width: 100%;
         }
-
-        h2 {
-            color: #0d9488;
-            margin-bottom: 10px;
-        }
-
-        textarea, input {
-            width: 100%;
-            margin: 10px 0;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            resize: none;
-            font-size: 16px;
-        }
-
-        .button-group {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 10px;
-        }
-
-        button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        #convertButton {
-            background-color: #0d9488;
-            color: white;
-        }
-
-        #convertButton:hover {
-            background-color: #0c7a6f;
-        }
-
-        #clearButton {
-            background-color: #ef4444;
-            color: white;
-        }
-
-        #clearButton:hover {
-            background-color: #dc2626;
-        }
+        h2 { color: #0d9488; margin-bottom: 10px; }
+        textarea, input { width: 100%; margin: 10px 0; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; }
+        .button-group { display: flex; justify-content: space-around; margin-top: 10px; }
+        button { padding: 10px 20px; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; }
+        #convertButton { background-color: #0d9488; color: white; }
+        #convertButton:hover { background-color: #0c7a6f; }
+        #clearButton { background-color: #ef4444; color: white; }
+        #clearButton:hover { background-color: #dc2626; }
     </style>
 </head>
 <body>
@@ -102,9 +62,7 @@
 
             const response = await fetch('/api/login', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password })
             });
 
@@ -112,6 +70,7 @@
 
             if (result.success) {
                 localStorage.setItem("sessionToken", result.token);
+                localStorage.setItem("email", email);
                 document.getElementById("loginContainer").style.display = "none";
                 document.getElementById("converterContainer").style.display = "block";
                 checkSessionValidity();
@@ -145,21 +104,30 @@
         }
 
         function logout() {
+            const email = localStorage.getItem("email");
+            fetch('/api/logout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email })
+            });
             localStorage.removeItem("sessionToken");
+            localStorage.removeItem("email");
             document.getElementById("converterContainer").style.display = "none";
             document.getElementById("loginContainer").style.display = "block";
         }
 
         async function checkSessionValidity() {
             const sessionToken = localStorage.getItem("sessionToken");
-            if (!sessionToken) return;
+            const email = localStorage.getItem("email");
+            if (!sessionToken || !email) return;
 
             const response = await fetch('/api/check-session', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${sessionToken}`
-                }
+                },
+                body: JSON.stringify({ email })
             });
 
             const result = await response.json();

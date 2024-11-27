@@ -13,7 +13,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // List of allowed emails and password
 const allowedEmails = ["chandraharshavasa@gmail.com", "harshavasa816@gmail.com", "vallemanasa000@gmail.com", "pranavdsp1718@gmail.com" ,"deepaksheoran865@gmail.com"]; // Replace with your allowed emails
-const allowedPassword = "Chegg@123"; // Replace with a secure password
+const allowedPassword = "Chegg@321"; // Replace with a secure password
 let activeSessionToken = null;
 
 app.post('/api/login', (req, res) => {

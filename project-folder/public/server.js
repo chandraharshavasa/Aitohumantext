@@ -12,7 +12,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // List of allowed emails and password
 const allowedEmails = ["chandraharshavasa@gmail.com", "harshavasa816@gmail.com", "vallemanasa000@gmail.com" ,"deepaksheoran865@gmail.com" ]; // Replace with your allowed emails
-const allowedPassword = "Chegg@321"; // Replace with a secure password
+const allowedPassword = "Chegg@777"; // Replace with a secure password
 
 // Store session tokens per email
 const sessionTokens = {};
